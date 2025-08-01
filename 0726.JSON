@@ -434,34 +434,7 @@
             },
             "jar": "./jar/HeChengChaXiu.jar"
         },
-        {
-            "key": "无忧短剧",
-            "name": " 🍻无忧┃短剧",
-            "type": 3,
-            "api": "csp_Duanj",
-            "searchable": 1,
-            "changeable": 0,
-            "style": {
-                "type": "rect",
-                "ratio": 1.433
-            },
-            "timeout": 10,
-            "jar": "./jar/ttkx.jar;md5;aea5fe4c369212624311fad87d111548"
-        },
-        {
-            "key": "在线短剧",
-            "name": " 🍻在线┃短剧",
-            "type": 3,
-            "api": "csp_Duanju",
-            "searchable": 1,
-            "changeable": 0,
-            "style": {
-                "type": "rect",
-                "ratio": 1.433
-            },
-            "timeout": 10,
-            "jar": "./jar/ttkx.jar;md5;aea5fe4c369212624311fad87d111548"
-        },
+      
         {
             "key": "csp_XYQHiker_爱你短剧",
             "name": " 🍻爱你短剧",
@@ -538,28 +511,7 @@
             "ext": "./kxb/js/金牌影视.js"
         },
        
-        {
-            "key": "网飞啦[自动]_js",
-            "name": " 🍻‍网飞啦[自动](drpy_t3)",
-            "type": 3,
-            "api": ".kxb/drpy_libs/drpy2.min.js",
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "order_num": 0,
-            "ext": "./kxb/js/网飞啦[自动].js"
-        },
-        {
-            "key": "可可[自动]_js",
-            "name": " 🍻‍可可啦[自动](drpy_t3)",
-            "type": 3,
-            "api": ".kxb/drpy_libs/drpy2.min.js",
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "order_num": 0,
-            "ext": "./kxb/js/可可影视[优].js"
-        },
+      
         {
             "key": "网飞猫[优]_js",
             "name": " 🍻‍网飞猫[优]",
@@ -582,201 +534,13 @@
             "order_num": 0,
             "ext": "./kxb/js/黑木耳资源[资].js"
         },
-        {
-            "key": "hipy_js_多多追剧[优]",
-            "name": " 🍻多多追剧",
-            "type": 3,
-            "api": "./kxb/drpy_libs/drpy2.min.js",
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "order_num": 0,
-            "ext": "./kxb/js/多多追剧[优].js"
-        },
-        {
-            "key": "hipy_js_哔哩影视[官]",
-            "name": " 🍻哔哩影视[官](drpy_t3)",
-            "type": 3,
-            "api": "./kxb/drpy_libs/drpy2.min.js",
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "order_num": 73,
-            "ext": "./kxb/js/哔哩影视[官].js"
-        },
-        {
-            "key": "py_cctv",
-            "name": "❤️爱央视",
-            "type": 3,
-            "api": "py_cctv",
-            "searchable": 0,
-            "quickSearch": 0,
-            "filterable": 1,
-            "ext": "./py/aiysTV.py",
-            "jar": "./jar/yimu.jar"
-        },
-        {
-            "key": "360影视",
-            "name": "❇️360(官)",
-            "type": 3,
-            "api": "csp_SP360",
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "changeable": 0,
-            "playUrl": "https://jx.xmflv.com/?url=",
-            "jar": "./jar/Aoki.jar"
-        },
-        {
-            "key": "csp_IQIYI",
-            "name": "🥝爱奇艺",
-            "type": 3,
-            "api": "csp_IQIYI",
-            "searchable": 1,
-            "playUrl": "https://jx.xmflv.com/?url=",
-            "quickSearch": 1,
-            "filterable": 1,
-            "jar": "./jar/0925.jar"
-        },
-        {
-            "key": "csp_MGTV",
-            "name": "🍋芒果Tv",
-            "type": 3,
-            "api": "csp_MGTV",
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "jar": "./jar/0925.jar"
-        },
-        {
-            "key": "优酷",
-            "name": " 🍻优酷(官)",
-            "type": 3,
-            "api": "./kxb/drpy_libs/drpy2.min.js",
-            "ext": "./kxb/js/优酷.js"
-        },
-        {
-            "key": "腾讯",
-            "name": " 🍻腾讯VIP(官)",
-            "type": 3,
-            "api": "./kxb/drpy_libs/drpy2.min.js",
-            "ext": "./kxb/js/腾讯VIP.js",
-            "playurl": "https://jx.yparse.com/index.php?url="
-        },
-        {
-            "key": "芒果",
-            "name": " 🍻芒果(官)",
-            "type": 3,
-            "api": "./kxb/drpy_libs/drpy2.min.js",
-            "ext": "./kxb/js/芒果.js"
-        },
-        {
-            "key": "搜狗",
-            "name": " 🍻搜狗(官)",
-            "type": 3,
-            "api": "./kxb/drpy_libs/drpy2.min.js",
-            "ext": "./kxb/js/搜狗.js"
-        },
+  
+ 
+      
         {"key":"seed","name":"💡聚剧剧┃三盘","type":3,"api":"csp_SeedhubGuard","changeable":0,"ext":"5++kwLhNYm9UrO9wh7Dl7eKamTee4s/5","searchable":1,"quickSearch":1,"changeable":0, "indexs":0,"style":{"type":"list"}}, 
 
         {"key":"南瓜","name":"🎃南瓜┃不卡","type":3,"api":"csp_NanGuaGuard","timeout":15,"playerType":2,"searchable":1,"quickSearch":1,"changeable":1},
-        {
-			"key": "芒",
-			"name": "🥭┃百忙无果┃TV",
-			"type": 3,
-			"api": "./py/py_芒.py",
-			"searchable": 1,
-			"quickSearch": 1,
-			"changeable": 1,
-			"filterable": 1,
-			"timeout": 60,
-            "jar": " ./jar/pg.jar"
-		},
-		{
-			"key": "腾",
-			"name": "🐧┃腾云驾雾┃TV",
-			"type": 3,
-			"api": "./py/py_腾.py",
-			"searchable": 1,
-			"quickSearch": 1,
-			"changeable": 1,
-			"filterable": 1,
-			"timeout": 60,
-            "jar": " ./jar/pg.jar"
-		},
-		{
-			"key": "爱",
-			"name": "🥝┃奇珍异兽┃TV",
-			"type": 3,
-			"api": "./py/py_爱.py",
-			"searchable": 1,
-			"quickSearch": 1,
-			"changeable": 1,
-			"filterable": 1,
-			"timeout": 60,
-            "jar": " ./jar/pg.jar"
-		},
-		{
-			"key": "py_光速",
-			"name": "💡┃光速┃影视",
-			"type": 3,
-			"api": "./py/py光速.py",
-			"searchable": 1,
-			"quickSearch": 1,
-			"changeable": 1,
-			"filterable": 1,
-			"timeout": 60,
-            "jar": " ./jar/pg.jar"
-		},
-		{
-			"key": "mp",
-			"name": "🐠┃MP┃影视",
-			"type": 3,
-			"api": "./py/pymp.py",
-			"searchable": 1,
-			"quickSearch": 1,
-			"changeable": 1,
-			"filterable": 1,
-			"timeout": 60,
-            "jar": " ./jar/pg.jar"
-		},
-		{
-			"key": "cntv央视",
-			"name": "🦆┃CNTV央视┃TV",
-			"type": 3,
-			"api": "./py/py_cntv央视.py",
-			"searchable": 1,
-			"quickSearch": 1,
-			"changeable": 1,
-			"filterable": 1,
-			"timeout": 60,
-            "jar": " ./jar/pg.jar"
-		},	
-		{
-			"key": "hitv",
-			"name": "🎸┃Hitv┃影视",
-			"type": 3,
-			"api": "./py/pyhitv.py",
-			"searchable": 1,
-			"quickSearch": 1,
-			"changeable": 1,
-			"filterable": 1,
-			"timeout": 60,
-            "jar": " ./jar/pg.jar"
-		},
-		{
-			"key": "xpg",
-			"name": "🐽┃XPG┃影视",
-			"type": 3,
-			"api": "./py/pyxpg.py",
-			"searchable": 1,
-			"quickSearch": 1,
-			"changeable": 1,
-			"filterable": 1,
-			"timeout": 60,
-            "jar": " ./jar/pg.jar"
-		},	
-
+ 
         {
             "key": "天天",
             "name": "天天┃App",
@@ -828,13 +592,7 @@
 			},
             "jar": " ./jar/pg.jar"
 		},
-		{"key":"115Share","name":"115云盘分享","type":3,"api":"csp_P115Share","searchable":1,"quickSearch":1, "changeable":0, "filterable":0, "timeout":120, "ext":"./lib/tokenm.json$$$./lib/115share.txt$$$db$$$1",
-			"style": {
-				"type": "list",
-				"ratio": 1.1
-			},
-            "jar": " ./jar/pg.jar"
-		},
+
 		{"key":"UCShare","name":"UC云盘分享","type":3,"api":"csp_UCShare","searchable":1,"quickSearch":0, "changeable":0, "filterable":0, "timeout":60, "ext":"./lib/tokenm.json$$$./lib/ucshare.txt$$$db$$$1",
 			"style": {
 				"type": "list",
