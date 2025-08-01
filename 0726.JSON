@@ -178,52 +178,6 @@
     },
 
         {
-            "key": "视觉",
-            "name": "👓视觉┃多线",
-            "type": 3,
-            "api": "csp_Xinsj",
-            "timeout": 15,
-            "searchable": 1,
-            "quickSearch": 1,
-            "changeable": 1,
-            "ext": "https://www.80yy3.com/",
-            "jar":"./jar/fan1122.txt"
-        },
-        {
-            "key": "小点",
-            "name": "💥小点┃多线",
-            "type": 3,
-            "api": "csp_Xdys",
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "changeable": 0,
-            "jar":"./jar/fan1122.txt"
-        },
-       
-        {
-            "key": "欢视",
-            "name": "👓欢视┃多线",
-            "type": 3,
-            "api": "csp_AppTT",
-            "playerType": 2,
-            "searchable": 1,
-            "quickSearch": 1,
-            "changeable": 1,
-            "ext": "AO7TcBkd8I/B+Qsa7gqa+pU=",
-            "jar":"./jar/fan1122.txt"
-        },
-        {
-            "key": "meowtv_wfys",
-            "name": "🇹┃飞网2k*秒播",
-            "type": 3,
-            "api": ".kxb/drpy_libs/js/drpy2.min.js",
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "ext": "http://cdn.teyonds.com/js/网飞影视.js"
-        },
-        {
             "key": "主力源",
             "name": "🚄索尼*资源",
             "type": 1,
