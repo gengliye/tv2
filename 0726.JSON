@@ -36,7 +36,7 @@
             "key": "首页",
             "name": "🎞️豆瓣┃影视",
             "type": 3,
-            "api": "./kxb/drpy_libs/js/drpy2.min.js",
+            "api": "./kxb/drpy_libs/js/drpymin2.js",
             "searchable": 0,
             "changeable": 1,
             "ext": "./kxb/js/douban.js"
