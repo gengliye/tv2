@@ -32,6 +32,7 @@
     ],
 
     "sites": [
+         {"key":"豆","name":"豆瓣热播","type": 3, "api": "csp_DouDouGuard","indexs":1,"searchable": 0,"quickSearch": 0,"changeable":0}, 
         
         {
             "key": "儿童拼音",
@@ -88,13 +89,30 @@
      {"key":"厂长","name":"📔厂长┃不卡","type":3,"api":"csp_NewCzGuard","timeout":20,"playerType":2,"searchable":1,"quickSearch":1,"changeable":1}, 
      {"key":"比特","name":"🍄比特┃手机","type":3,"api":"csp_BttwooGuard","timeout":20,"searchable":1,"quickSearch":1,"changeable":1}, 
      {"key":"低端","name":"⏮️低端┃外剧","type":3,"api":"csp_DdrkGuard","timeout":20,"playerType":"2","searchable":1,"quickSearch":1,"changeable":1}, 
-     {"key":"萌米","name":"👀萌米┃多线","type":3,"api":"csp_AppTTGuard","timeout":20,"playerType":2,"searchable":1,"quickSearch":1,"changeable":1,"ext":"uqGL1bNENEIVq+dC1p/Y9uWjuA=="}, 
-     {"key":"热播","name":"📺热播┃多线","type":3,"api":"csp_AppTTGuard","timeout":20,"playerType":2,"searchable":1,"quickSearch":1,"changeable":1,"ext":"uqGL1bNENExT7/hGxpSE5qU="}, 
-     {"key":"兄弟","name":"🍊水星┃多线","type":3,"api":"csp_AppSxGuard","timeout":20,"searchable":1,"quickSearch":1,"filterable":1,"ext":"rfOb1uAWbkRHp7hdxprG9un3+SLP183q3ik3cJDiAwlFdF8L6SIvrvc9LrpTyIg76T7QJZdEkWNj43wiSaA0TJyQpu2IF2jsSLWFx7WkAmG40hFxJ1tI+Jf+EVG8DtoDRcNi+TtVGULnWrSz3EWnVcxR3EJhXnrwYWe1kJtNW5txuHAO"},
+     {"key":"萌米","name":"👀萌米┃多线","type":3,"api":"csp_AppTTGuard","timeout":15,"playerType":2,"searchable":1,"quickSearch":1,"changeable":1,"ext":"uqGL1bNENEIVq+dC1p/Y9uWjuA=="}, 
+     {"key":"热播","name":"📺热播┃多线","type":3,"api":"csp_AppTTGuard","timeout":15,"playerType":2,"searchable":1,"quickSearch":1,"changeable":1,"ext":"uqGL1bNENExT7/hGxpSE5qU="}, 
+  
+      {"key":"欢视","name":"👓欢视┃多线","type":3,"api":"csp_AppTTGuard","timeout":15,"playerType":2,"searchable":1,"quickSearch":1,"changeable":1,"ext":"uqGL1bNENExT9fFAy5mE5qU="}, 
+      {"key":"奥特","name":"🏝奥特┃多线","type": 3,"api":"csp_AueteGuard","timeout":15,"searchable":1,"quickSearch":1,"changeable":1,"ext":"https://auete.com/"}, 
+      {"key":"荐片","name":"🐭荐片┃P2P","type":3,"api":"csp_JPJGuard","timeout":15,"playerType":2,"searchable":1,"quickSearch":1,"changeable":0}, 
+      {"key":"新6V","name":"🧲新6V┃磁力","type":3,"api":"csp_SixVGuard","timeout":15,"searchable":1,"quickSearch":1,"changeable":0,"ext": "https://www.xb6v.com/"}, 
+      {"key":"Dm84","name":"🚌巴士┃动漫","type":3,"api":"csp_Dm84Guard","timeout":15,"searchable":1,"quickSearch":1,"changeable":1},
+
       
-       {"key":"原创","name":"☀原创┃不卡","type":3,"api":"csp_YCyzGuard","timeout":20,"playerType":1,"searchable":1,"quickSearch":1,"changeable":1}, 
-       {"key":"欢视","name":"👓欢视┃多线","type":3,"api":"csp_AppTTGuard","timeout":20,"playerType":2,"searchable":1,"quickSearch":1,"changeable":1,"ext":"uqGL1bNENExT9fFAy5mE5qU="},
-       {"key":"贱贱","name":"🐭荐片┃P2P","type":3,"api":"csp_JPJGuard","timeout":20,"playerType":2,"searchable":1,"quickSearch":1,"changeable":0}, 
+
+        {"key":"seed","name":"💡聚剧剧┃三盘","type":3,"api":"csp_SeedhubGuard","changeable":0,"ext":"5++kwLhNYm9UrO9wh7Dl7eKamTee4s/5","searchable":1,"quickSearch":1,"changeable":0, "indexs":0,"style":{"type":"list"}}, 
+
+        {"key":"南瓜","name":"🎃南瓜┃不卡","type":3,"api":"csp_NanGuaGuard","timeout":15,"playerType":2,"searchable":1,"quickSearch":1,"changeable":1},
+ 
+        {
+            "key": "天天",
+            "name": "天天┃App",
+            "type": 3,
+            "api": "csp_TTian",
+            "playerType": 1,
+            "ext": "http://op.ysdqjs.cn",
+            "jar": " ./jar/pg.jar"
+        },
         {
             "key": "木耳",
             "name": "🪴木耳┃秒播",
@@ -157,26 +175,8 @@
             "header": {
                 "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
             }
-        },
+        },     
        
-       {"key":"新6V","name":"🧲新6V┃磁力","type":3,"api":"csp_SixVGuard","timeout":10,"searchable":1,"quickSearch":1,"changeable":0,"ext": "https://www.xb6v.com/"},   
-       {"key":"Dm84","name":"🚌巴士┃动漫","type":3,"api":"csp_Dm84Guard","timeout":10,"searchable":1,"quickSearch":1,"changeable":1}, 
-             
-       
-       
-      
-      {
-      "key": "可可",
-      "name": "☕️可可",
-      "type": 3,
-      "api": "csp_XYQHiker",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-       "jar": "./jar/ttkx.jar;md5;aea5fe4c369212624311fad87d111548",
-      "ext": "./lib/可可影视.json"
-    },
-
         {
             "key": "主力源",
             "name": "🚄索尼*资源",
@@ -388,7 +388,20 @@
             },
             "jar": "./jar/HeChengChaXiu.jar"
         },
+             
+      {
+      "key": "可可",
+      "name": "☕️可可",
+      "type": 3,
+      "api": "csp_XYQHiker",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+       "jar": "./jar/ttkx.jar;md5;aea5fe4c369212624311fad87d111548",
+      "ext": "./lib/可可影视.json"
+    },
       
+
         {
             "key": "csp_XYQHiker_爱你短剧",
             "name": " 🍻爱你短剧",
@@ -411,6 +424,18 @@
             "ext": "./lib/json/河马短剧.json",
             "jar": "./jar/ttkx.jar;md5;aea5fe4c369212624311fad87d111548"
         },
+              {
+            "key": "你好帅",
+            "name": " 🍻好帅┃短剧",
+            "type": 3,
+            "api": "csp_XBPQ",
+            "ext": {
+                "分类url": "https://nhsyy.com/vodshwo/{cateId}--{by}------{catePg}---.html",
+                "分类": "穿越$fenle#战神$fenlei2#重生$fenlei3#爱情$fenlei4#萌娃$guda#神医$shenyi#古代$gudai#言情$yanqing#玄幻$xuanhuan",
+                "播放数组": "<div class=\"sort-item\"&&</div>"
+            },
+            "jar": "./jar/ttkx.jar;md5;aea5fe4c369212624311fad87d111548"
+        },
         {
             "key": "js_星芽短剧",
             "name": " 🍻星芽短剧",
@@ -431,18 +456,7 @@
             "filterable": 1,
             "ext": "./kxb/js/蓝莓短剧.js"
         },
-        {
-            "key": "你好帅",
-            "name": " 🍻好帅┃短剧",
-            "type": 3,
-            "api": "csp_XBPQ",
-            "ext": {
-                "分类url": "https://nhsyy.com/vodshwo/{cateId}--{by}------{catePg}---.html",
-                "分类": "穿越$fenle#战神$fenlei2#重生$fenlei3#爱情$fenlei4#萌娃$guda#神医$shenyi#古代$gudai#言情$yanqing#玄幻$xuanhuan",
-                "播放数组": "<div class=\"sort-item\"&&</div>"
-            },
-            "jar": "./jar/ttkx.jar;md5;aea5fe4c369212624311fad87d111548"
-        },
+  
         {
             "key": "️爱看Bot弹幕版",
             "name": " 🍻爱看Bot|弹幕",
@@ -464,8 +478,7 @@
             "api": ".kxb/drpy_libs/drpy2.min.js",
             "ext": "./kxb/js/金牌影视.js"
         },
-       
-      
+             
         {
             "key": "网飞猫[优]_js",
             "name": " 🍻‍网飞猫[优]",
@@ -489,21 +502,6 @@
             "ext": "./kxb/js/黑木耳资源[资].js"
         },
   
- 
-      
-        {"key":"seed","name":"💡聚剧剧┃三盘","type":3,"api":"csp_SeedhubGuard","changeable":0,"ext":"5++kwLhNYm9UrO9wh7Dl7eKamTee4s/5","searchable":1,"quickSearch":1,"changeable":0, "indexs":0,"style":{"type":"list"}}, 
-
-        {"key":"南瓜","name":"🎃南瓜┃不卡","type":3,"api":"csp_NanGuaGuard","timeout":15,"playerType":2,"searchable":1,"quickSearch":1,"changeable":1},
- 
-        {
-            "key": "天天",
-            "name": "天天┃App",
-            "type": 3,
-            "api": "csp_TTian",
-            "playerType": 1,
-            "ext": "http://op.ysdqjs.cn",
-            "jar": " ./jar/pg.jar"
-        },
  		{
 			"key": "网盘配置",
 			"name": "网盘及彈幕配置",
