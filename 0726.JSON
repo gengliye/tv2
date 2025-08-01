@@ -256,56 +256,6 @@
             "playurl": "https://jx.jxbdzyw.com/m3u8/?url="
         },
 
-        
-  {
-            "key": "csp_硬图",
-            "name": "⚜️硬图*资源",
-            "type": 1,
-            "api": "https://cj.vodimg.top/api.php/provide/vod/",
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "playurl": "https://jx.jxbdzyw.com/m3u8/?url="
-        },       
-        {
-            "key": "csp_vod_华为",
-            "name": "⚜️华为*资源",
-            "type": 1,
-            "api": "https://cjhwba.com/api.php/provide/vod/?ac=list",
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1,
-            "playurl": "https://player.dphw8.com/player?url="
-        },
-        {
-            "key": "csp_vod_快车",
-            "name": "⚜️快车*资源",
-            "type": 1,
-            "api": "https://caiji.kczyapi.com/api.php/provide/vod/",
-            "playUrl": "https://jiexi.kczyapi.com/m3u8/?url=",
-            "searchable": 1,
-            "quickSearch": 1,
-            "categories": [
-                "动作片",
-                "喜剧片",
-                "爱情片",
-                "科幻片",
-                "恐怖片",
-                "剧情片",
-                "伦理片",
-                "动画片",
-                "国产剧",
-                "香港剧",
-                "台湾剧",
-                "欧美剧",
-                "韩国剧",
-                "日本剧",
-                "海外剧",
-                "动漫",
-                "国产动漫",
-                "日本动漫"
-            ]
-        },
         {
             "key": "新浪资源",
             "name": "🌊新浪*资源",
@@ -364,16 +314,7 @@
             "quickSearch": 1,
             "filterable": 1
         },
-        {
-            "key": "csp_天空资源",
-            "name": "🤖天空*资源",
-            "type": 1,
-            "api": " https://m3u8.tiankongapi.com/api.php/provide/vod/from/tkm3u8/?ac=list",
-            "playUrl": "https://jx.huishij.com/yun/?url=",
-            "searchable": 1,
-            "quickSearch": 1,
-            "filterable": 1
-        },
+
         {
             "key": "OXS",
             "name": "🚆O先生影视",
