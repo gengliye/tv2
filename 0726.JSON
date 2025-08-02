@@ -375,7 +375,47 @@
             "filterable": 1,
             "ext": "./kxb/js/蓝莓短剧.js"
         },
-  
+      {
+      "key": "✨一起看✨",
+      "name": "✨一起看短剧✨",
+      "type": 3,
+      "api": "csp_XBPQ",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+     "jar": "./jar/短剧.jar;md5;fd3cefc7302f3a39a442682f802b11e5",
+      "ext": "./lib/一起看短剧.json"
+    },
+        {
+      "key": "✨安迪短剧✨",
+      "name": "✨安迪短剧✨",
+      "type": 3,
+      "api": "csp_XBPQ",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": "./lib/安迪短剧.json"
+    },
+        {
+      "key": "py_偷乐短剧",
+      "name": "✨偷乐短剧✨",
+      "type": 3,
+      "api": "./lib/py_偷乐短剧.py",
+      "searchable": 1,
+      "quickSearch": 0,
+      "filterable": 0
+    },
+        {
+      "key": "✨老王影院✨",
+      "name": "✨老王短剧✨",
+      "type": 3,
+      "api": "csp_XBPQ",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": "./lib/老王短剧.json"
+    },
+
         {
             "key": "️爱看Bot弹幕版",
             "name": " 🍻爱看Bot|弹幕",
