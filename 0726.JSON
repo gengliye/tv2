@@ -38,14 +38,14 @@
             "key": "hipy_js_采集之王",
             "name": " 🍻采集之王[合]",
             "type": 3,
-            "api": ".kxb/drpy2.min.js",
+            "api": "./kxb/drpy2.min.js",
             "searchable": 1,
             "quickSearch": 1,
             "filterable": 1,
             "order_num": 0,
-            "ext": "./kxb/采集之王[合].js?type=url&params=../kxb/js/采集静态.json$1"
+            "ext": "./kxb/采集之王[合].js?type=url&params=../kxb/采集静态.json$1"
         },
-  
+       
         {
             "key": "Libfix",
             "name": "🍓Lib┃直连",
