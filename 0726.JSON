@@ -43,6 +43,7 @@
             "quickSearch": 1,
             "filterable": 1,
             "order_num": 0,
+             "jar":"./jar/fan0605.jar;md5;677399a8a27a64506b814ed92ee7acbe",
             "ext": "./kxb/采集之王[合].js?type=url&params=../kxb/采集静态.json$1"
         },
        
