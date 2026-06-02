@@ -43,7 +43,7 @@
             "filterable": 1,
             "order_num": 0,
              "jar":"./jar/ttkx.jar",
-            "ext": "./kxb/采集之王[源].js?type=url&params=../kxb/js/采集静态.json$1"
+            "ext": "./kxb/采集之王[合].js?type=url&params=../kxb/js/采集静态.json$1"
         },
        {"key":"MyDrive",
        "name":"🗂我的云盘┃我配置",
