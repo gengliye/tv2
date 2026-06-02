@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TVBox Bilibili 调试工具</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:monospace;font-size:13px;background:#f5f5f5;padding:16px}
+h1{font-size:16px;font-weight:500;margin-bottom:16px;color:#222}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:10px;margin-bottom:12px;overflow:hidden}
+.card-head{padding:10px 14px;background:#f8f8f8;border-bottom:1px solid #e0e0e0;font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px}
+.card-body{padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.row{display:flex;align-items:center;gap:8px}
+.row label{white-space:nowrap;font-size:12px;color:#666;min-width:64px}
+input{flex:1;padding:7px 10px;border:1px solid #ddd;border-radius:6px;font-family:monospace;font-size:12px;background:#fff;color:#222}
+button{padding:7px 16px;border:1px solid #ddd;border-radius:6px;background:#f0f0f0;color:#222;cursor:pointer;font-size:12px;font-family:monospace}
+.btn-run{background:#0052d9;color:#fff;border-color:#0052d9;font-weight:500}
+.btn-run:hover{background:#003fa5}
+.tabs{display:flex;gap:4px;margin-bottom:8px}
+.tab{padding:5px 14px;border:1px solid #ddd;border-radius:6px;cursor:pointer;font-size:12px;color:#666;background:#fff}
+.tab.active{background:#e8f0fe;color:#0052d9;border-color:#0052d9}
+.panel{display:none}
+.panel.active{display:block}
+.log{background:#1a1a1a;color:#ccc;border-radius:8px;padding:12px;max-height:380px;overflow-y:auto;font-size:11.5px;line-height:1.8;display:flex;flex-direction:column;gap:1px}
+.lok{color:#4caf50}
+.lerr{color:#f44336;font-weight:500}
+.lwarn{color:#ff9800}
+.ldata{color:#64b5f6}
+.steps{display:flex;flex-direction:column;gap:6px}
+.step{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:8px;border:1px solid #e0e0e0;background:#fff}
+.step-icon{font-size:15px;min-width:22px;margin-top:1px;text-align:center}
+.step-title{font-size:12px;font-weight:500;color:#222}
+.step-desc{font-size:11px;color:#888;margin-top:3px;line-height:1.5}
+.step.running{border-color:#ff9800;background:#fff8e1}
+.step.ok-step{border-color:#4caf50;background:#f1f8e9}
+.step.err-step{border-color:#f44336;background:#fff3f3}
+.step.pending{opacity:.5}
+.result-item{margin-bottom:10px}
+.result-label{font-size:11px;color:#888;margin-bottom:3px}
+.result-data{background:#1a1a1a;color:#64b5f6;border-radius:6px;padding:8px 10px;font-size:11px;white-space:pre-wrap;word-break:break-all;max-height:200px;overflow-y:auto}
+</style>
+</head>
+<body>
+<h1>TVBox Bilibili Spider 调试工具</h1>
+
+<div class="card">
+  <div class="card-head">配置</div>
+  <div class="card-body">
+    <div class="row">
+      <label>JS URL</label>
+      <input id="jsUrl" value="https://raw.giteeusercontent.com/glytv/tv2/raw/main/JS/bilibili.js"/>
+    </div>
+    <div class="row">
+      <label>Cat URL</label>
+      <input id="catUrl" value="https://raw.giteeusercontent.com/glytv/tv2/raw/main/json/categories.json"/>
+    </div>
+    <div class="row">
+      <label>搜索词</label>
+      <input id="keyword" value="小学语文"/>
+      <button class="btn-run" onclick="runAll()">▶ 全部检测</button>
+    </div>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="sw('tab-steps',this)">步骤</div>
+  <div class="tab" onclick="sw('tab-log',this)">日志</div>
+  <div class="tab" onclick="sw('tab-result',this)">数据</div>
+</div>
+
+<div id="tab-steps" class="panel active">
+  <div class="steps" id="steps">
+    <div class="step pending" id="s0"><div class="step-icon">1</div><div><div class="step-title">获取 JS 文件</div><div class="step-desc" id="s0d">检查 bilibili.js 可访问性与完整性</div></div></div>
+    <div class="step pending" id="s1"><div class="step-icon">2</div><div><div class="step-title">加载分类 JSON</div><div class="step-desc" id="s1d">检查 categories.json 格式</div></div></div>
+    <div class="step pending" id="s2"><div class="step-icon">3</div><div><div class="step-title">WBI Key 获取</div><div class="step-desc" id="s2d">从 B 站动态获取签名 key</div></div></div>
+    <div class="step pending" id="s3"><div class="step-icon">4</div><div><div class="step-title">搜索接口</div><div class="step-desc" id="s3d">WBI 签名 + 关键词搜索</div></div></div>
+    <div class="step pending" id="s4"><div class="step-icon">5</div><div><div class="step-title">视频详情</div><div class="step-desc" id="s4d">获取分集信息</div></div></div>
+    <div class="step pending" id="s5"><div class="step-icon">6</div><div><div class="step-title">播放地址</div><div class="step-desc" id="s5d">获取 DASH / durl 播放流</div></div></div>
+  </div>
+</div>
+
+<div id="tab-log" class="panel">
+  <div class="log" id="logbox"><div class="lg">点击"全部检测"开始…</div></div>
+</div>
+
+<div id="tab-result" class="panel">
+  <div id="resultbox" style="display:flex;flex-direction:column;gap:10px;padding:4px 0"></div>
+</div>
+
+<script>
+var WBI_TAB=[46,47,18,2,53,8,23,32,15,50,10,31,58,3,45,35,27,43,5,49,33,9,42,19,29,28,14,39,12,38,41,13,37,48,7,16,24,55,40,61,26,17,0,1,60,51,30,4,22,25,54,21,56,59,6,63,57,62,11,36,20,34,44,52];
+var IMG_FB='7cd084941338484aae1ad9425b84077c',SUB_FB='4932caff0ff746eab6f01bf08b70ac45';
+var _img='',_sub='';
+
+function sw(id,tab){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  document.getElementById(id).classList.add('active');
+  tab.classList.add('active');
+}
+
+var logEl=document.getElementById('logbox');
+var resEl=document.getElementById('resultbox');
+function lg(m,c){var d=document.createElement('div');d.className=c||'';d.textContent=m;logEl.appendChild(d);logEl.scrollTop=logEl.scrollHeight;}
+function lok(m){lg('[OK] '+m,'lok')}
+function lerr(m){lg('[ERR] '+m,'lerr')}
+function lwarn(m){lg('[WARN] '+m,'lwarn')}
+function ldata(m){lg(m,'ldata')}
+
+function setStep(i,state,desc){
+  var el=document.getElementById('s'+i);
+  el.className='step '+(state==='run'?'running':state==='ok'?'ok-step':state==='err'?'err-step':'pending');
+  el.querySelector('.step-icon').textContent=state==='ok'?'✓':state==='err'?'✗':state==='run'?'…':(i+1);
+  if(desc)el.querySelector('[id="s'+i+'d"]'||el.querySelectorAll('div')[1].querySelector('.step-desc')).textContent=desc;
+  var descs=el.querySelectorAll('div');
+  if(desc&&descs.length>2)descs[descs.length-1].textContent=desc;
+}
+
+function showResult(label,data){
+  var d=document.createElement('div');
+  d.className='result-item';
+  d.innerHTML='<div class="result-label">'+label+'</div><div class="result-data">'+
+    (typeof data==='string'?data:JSON.stringify(data,null,2)).substring(0,1000)+'</div>';
+  resEl.appendChild(d);
+}
+
+function md5(string){
+  function sa(x,y){var l=(x&0xffff)+(y&0xffff),m=(x>>16)+(y>>16)+(l>>16);return(m<<16)|(l&0xffff);}
+  function rl(x,c){return(x<<c)|(x>>>(32-c));}
+  function cm(q,a,b,x,s,t){return sa(rl(sa(sa(a,q),sa(x,t)),s),b);}
+  function ff(a,b,c,d,x,s,t){return cm((b&c)|(~b&d),a,b,x,s,t);}
+  function gg(a,b,c,d,x,s,t){return cm((b&d)|(c&~d),a,b,x,s,t);}
+  function hh(a,b,c,d,x,s,t){return cm(b^c^d,a,b,x,s,t);}
+  function ii(a,b,c,d,x,s,t){return cm(c^(b|~d),a,b,x,s,t);}
+  function s2b(s){var b=[];for(var i=0;i<s.length*8;i+=8)b[i>>5]|=(s.charCodeAt(i/8)&0xff)<<(i%32);return b;}
+  function b2h(b){var h='0123456789abcdef',r='';for(var i=0;i<b.length*4;i++)r+=h.charAt((b[i>>2]>>((i%4)*8+4))&0xf)+h.charAt((b[i>>2]>>((i%4)*8))&0xf);return r;}
+  function core(x,l){x[l>>5]|=0x80<<(l%32);x[(((l+64)>>>9)<<4)+14]=l;var i,oa,ob,oc,od,a=1732584193,b=-271733879,c=-1732584194,d=271733878;for(i=0;i<x.length;i+=16){oa=a;ob=b;oc=c;od=d;a=ff(a,b,c,d,x[i],7,-680876936);d=ff(d,a,b,c,x[i+1],12,-389564586);c=ff(c,d,a,b,x[i+2],17,606105819);b=ff(b,c,d,a,x[i+3],22,-1044525330);a=ff(a,b,c,d,x[i+4],7,-176418897);d=ff(d,a,b,c,x[i+5],12,1200080426);c=ff(c,d,a,b,x[i+6],17,-1473231341);b=ff(b,c,d,a,x[i+7],22,-45705983);a=ff(a,b,c,d,x[i+8],7,1770035416);d=ff(d,a,b,c,x[i+9],12,-1958414417);c=ff(c,d,a,b,x[i+10],17,-42063);b=ff(b,c,d,a,x[i+11],22,-1990404162);a=ff(a,b,c,d,x[i+12],7,1804603682);d=ff(d,a,b,c,x[i+13],12,-40341101);c=ff(c,d,a,b,x[i+14],17,-1502002290);b=ff(b,c,d,a,x[i+15],22,1236535329);a=gg(a,b,c,d,x[i+1],5,-165796510);d=gg(d,a,b,c,x[i+6],9,-1069501632);c=gg(c,d,a,b,x[i+11],14,643717713);b=gg(b,c,d,a,x[i],20,-373897302);a=gg(a,b,c,d,x[i+5],5,-701558691);d=gg(d,a,b,c,x[i+10],9,38016083);c=gg(c,d,a,b,x[i+15],14,-660478335);b=gg(b,c,d,a,x[i+4],20,-405537848);a=gg(a,b,c,d,x[i+9],5,568446438);d=gg(d,a,b,c,x[i+14],9,-1019803690);c=gg(c,d,a,b,x[i+3],14,-187363961);b=gg(b,c,d,a,x[i+8],20,1163531501);a=gg(a,b,c,d,x[i+13],5,-1444681467);d=gg(d,a,b,c,x[i+2],9,-51403784);c=gg(c,d,a,b,x[i+7],14,1735328473);b=gg(b,c,d,a,x[i+12],20,-1926607734);a=hh(a,b,c,d,x[i+5],4,-378558);d=hh(d,a,b,c,x[i+8],11,-2022574463);c=hh(c,d,a,b,x[i+11],16,1839030562);b=hh(b,c,d,a,x[i+14],23,-35309556);a=hh(a,b,c,d,x[i+1],4,-1530992060);d=hh(d,a,b,c,x[i+4],11,1272893353);c=hh(c,d,a,b,x[i+7],16,-155497632);b=hh(b,c,d,a,x[i+10],23,-1094730640);a=hh(a,b,c,d,x[i+13],4,681279174);d=hh(d,a,b,c,x[i],11,-358537222);c=hh(c,d,a,b,x[i+3],16,-722521979);b=hh(b,c,d,a,x[i+6],23,76029189);a=hh(a,b,c,d,x[i+9],4,-640364487);d=hh(d,a,b,c,x[i+12],11,-421815835);c=hh(c,d,a,b,x[i+15],16,530742520);b=hh(b,c,d,a,x[i+2],23,-995338651);a=ii(a,b,c,d,x[i],6,-198630844);d=ii(d,a,b,c,x[i+7],10,1126891415);c=ii(c,d,a,b,x[i+14],15,-1416354905);b=ii(b,c,d,a,x[i+5],21,-57434055);a=ii(a,b,c,d,x[i+12],6,1700485571);d=ii(d,a,b,c,x[i+3],10,-1894986606);c=ii(c,d,a,b,x[i+10],15,-1051523);b=ii(b,c,d,a,x[i+1],21,-2054922799);a=ii(a,b,c,d,x[i+8],6,1873313359);d=ii(d,a,b,c,x[i+15],10,-30611744);c=ii(c,d,a,b,x[i+6],15,-1560198380);b=ii(b,c,d,a,x[i+13],21,1309151649);a=ii(a,b,c,d,x[i+4],6,-145523070);d=ii(d,a,b,c,x[i+11],10,-1120210379);c=ii(c,d,a,b,x[i+2],15,718787259);b=ii(b,c,d,a,x[i+9],21,-343485551);a=sa(a,oa);b=sa(b,ob);c=sa(c,oc);d=sa(d,od);}return[a,b,c,d];}
+  var bs=unescape(encodeURIComponent(string));return b2h(core(s2b(bs),bs.length*8));
+}
+function enc(s){return encodeURIComponent(String(s)).replace(/%[0-9a-f]{2}/gi,function(m){return m.toUpperCase();});}
+function sign(p){
+  var raw=(_img||IMG_FB)+(_sub||SUB_FB),mk=WBI_TAB.map(function(n){return raw[n];}).join('').slice(0,32);
+  var wts=Math.round(Date.now()/1000),q=Object.assign({},p,{wts:wts});
+  var qs=Object.keys(q).sort().map(function(k){return enc(k)+'='+enc(String(q[k]).replace(/[!'()*]/g,''));}).join('&');
+  return qs+'&w_rid='+md5(qs+mk);
+}
+async function jget(url){
+  var r=await fetch(url,{headers:{'Referer':'https://www.bilibili.com'}});
+  if(!r.ok)throw new Error('HTTP '+r.status);
+  return r.json();
+}
+
+async function runAll(){
+  logEl.innerHTML='';resEl.innerHTML='';
+  for(var i=0;i<6;i++)setStep(i,'pending','');
+  var jsUrl=document.getElementById('jsUrl').value.trim();
+  var catUrl=document.getElementById('catUrl').value.trim();
+  var kw=document.getElementById('keyword').value.trim()||'小学语文';
+  var bvid='',cid='';
+
+  // Step 0
+  setStep(0,'run');lg('== 检测 JS 文件 ==');lg(jsUrl);
+  try{
+    var r=await fetch(jsUrl);
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    var txt=await r.text();
+    if(txt.includes('<!DOCTYPE')||txt.includes('<html'))throw new Error('返回了 HTML 页面，不是 JS 文件（URL 可能错误或文件不存在）');
+    lok('可访问，大小 '+Math.round(txt.length/1024)+'KB');
+    var ok1=txt.includes('function home')&&txt.includes('function category')&&txt.includes('function play');
+    ok1?lok('Spider 函数完整'):lerr('缺少 Spider 函数！请重新上传 bilibili.js');
+    var ok2=txt.includes('DEFAULT_CAT_URL')||txt.includes('giteeusercontent');
+    ok2?lok('包含默认 catUrl'):lwarn('无默认 catUrl，ext 必须填完整 URL');
+    setStep(0,ok1?'ok':'err',ok1?'JS 完整 '+Math.round(txt.length/1024)+'KB':'缺少 Spider 函数');
+    showResult('bilibili.js 前500字符',txt.substring(0,500));
+  }catch(e){
+    lerr(e.message);
+    if(e.message.includes('HTML'))lwarn('修复: URL 应为 raw.giteeusercontent.com/... 格式，不是仓库页面地址');
+    else if(e.message.includes('Failed'))lwarn('修复: 检查 URL 是否正确，网络是否通畅');
+    setStep(0,'err',e.message.substring(0,50));
+  }
+
+  // Step 1
+  setStep(1,'run');lg('\n== 检测 categories.json ==');lg(catUrl);
+  try{
+    var cat=await jget(catUrl);
+    if(!cat.classes||!cat.classes.length)throw new Error('classes 字段缺失或为空');
+    lok('分类数: '+cat.classes.length);
+    cat.classes.forEach(function(c){ldata('  ['+c.type_id+'] '+c.type_name);});
+    var fc=cat.filter?Object.keys(cat.filter).length:0;
+    fc?lok('筛选器 '+fc+' 组'):lwarn('无筛选器（filterable 设为 0 可避免显示空筛选）');
+    setStep(1,'ok',cat.classes.length+' 个分类');
+    showResult('categories.json',cat);
+  }catch(e){
+    lerr(e.message);
+    lwarn('修复: 确认 json/categories.json 已上传，URL 格式正确');
+    setStep(1,'err',e.message.substring(0,50));
+  }
+
+  // Step 2
+  setStep(2,'run');lg('\n== 获取 WBI Key ==');
+  try{
+    var nav=await jget('https://api.bilibili.com/x/web-interface/nav');
+    var wi=nav.data&&nav.data.wbi_img;
+    if(wi&&wi.img_url){
+      _img=wi.img_url.split('/').pop().replace(/\.\w+$/,'');
+      _sub=wi.sub_url.split('/').pop().replace(/\.\w+$/,'');
+      lok('动态 key 获取成功');
+      ldata('  img='+_img);ldata('  sub='+_sub);
+    }else{
+      lwarn('使用静态备用 key');_img=IMG_FB;_sub=SUB_FB;
+    }
+    lok('MD5验证: '+(md5('abc')==='900150983cd24fb0d6963f7d28e17f72'?'正确':'错误'));
+    setStep(2,'ok','Key 就绪');
+  }catch(e){
+    lwarn('WBI 获取失败，使用备用 key: '+e.message);
+    _img=IMG_FB;_sub=SUB_FB;setStep(2,'ok','备用 key');
+  }
+
+  // Step 3
+  setStep(3,'run');lg('\n== 搜索测试，关键词: '+kw+' ==');
+  try{
+    var qs=sign({keyword:kw,search_type:'video',page:1,page_size:10});
+    var url='https://api.bilibili.com/x/web-interface/wbi/search/type?'+qs;
+    lg('URL(前120): '+url.substring(0,120)+'...');
+    var sd=await jget(url);
+    ldata('  code='+sd.code+' message='+(sd.message||''));
+    if(sd.code!==0)throw new Error('code='+sd.code+' '+(sd.message||''));
+    var list=(sd.data&&sd.data.result)||[];
+    lok('返回 '+list.length+' 条');
+    list.slice(0,3).forEach(function(v){ldata('  '+v.bvid+' '+v.title.replace(/<[^>]+>/g,'').substring(0,30));});
+    if(list.length){bvid=list[0].bvid;}
+    setStep(3,list.length?'ok':'ok',list.length?'搜索成功 '+list.length+'条':'接口正常但无结果');
+    showResult('搜索结果',list.slice(0,3));
+  }catch(e){
+    lerr(e.message);
+    if(e.message.includes('-352'))lwarn('修复: B站风控，需配置 SESSDATA Cookie');
+    else if(e.message.includes('-403'))lwarn('修复: 签名错误或被封，检查 WBI 实现');
+    setStep(3,'err',e.message.substring(0,50));
+  }
+
+  // Step 4
+  setStep(4,'run');
+  if(!bvid){lwarn('跳过详情（无 bvid）');setStep(4,'ok','跳过');}
+  else{
+    lg('\n== 视频详情: '+bvid+' ==');
+    try{
+      var vd=await jget('https://api.bilibili.com/x/web-interface/view?bvid='+bvid);
+      if(vd.code!==0)throw new Error('code='+vd.code);
+      cid=String(vd.data.cid);
+      lok(vd.data.title+' 共'+(vd.data.pages&&vd.data.pages.length||1)+'集');
+      setStep(4,'ok',vd.data.title.substring(0,20));
+      showResult('视频详情',{bvid:vd.data.bvid,title:vd.data.title,cid:vd.data.cid,pages:(vd.data.pages||[]).length});
+    }catch(e){lerr(e.message);setStep(4,'err',e.message.substring(0,50));}
+  }
+
+  // Step 5
+  setStep(5,'run');
+  if(!bvid||!cid){lwarn('跳过播放（无 cid）');setStep(5,'ok','跳过');}
+  else{
+    lg('\n== 播放地址: bvid='+bvid+' cid='+cid+' ==');
+    try{
+      var pd=await jget('https://api.bilibili.com/x/player/wbi/playurl?bvid='+bvid+'&cid='+cid+'&fnval=16&fnver=0&fourk=1&qn=80');
+      if(pd.code!==0)throw new Error('code='+pd.code+' '+(pd.message||''));
+      var QN={6:'240P',16:'360P',32:'480P',64:'720P',74:'720P60',80:'1080P',112:'1080P+',116:'1080P60',120:'4K'};
+      if(pd.data.dash&&pd.data.dash.video&&pd.data.dash.video.length){
+        var best=pd.data.dash.video.sort(function(a,b){return b.id-a.id;})[0];
+        lok('DASH 成功，最高画质: '+(QN[best.id]||best.id+'P'));
+        ldata('  '+(best.base_url||best.baseUrl||'').substring(0,80)+'...');
+        setStep(5,'ok','DASH '+(QN[best.id]||best.id+'P'));
+        showResult('播放流',{quality:QN[best.id]||best.id,url:((best.base_url||best.baseUrl)||'').substring(0,120)+'...'});
+      }else if(pd.data.durl&&pd.data.durl.length){
+        lok('durl 降级流（登录可提升画质）');
+        setStep(5,'ok','durl 降级');
+      }else{
+        lwarn('无播放流（需要登录 Cookie）');
+        setStep(5,'ok','需要 Cookie');
+      }
+    }catch(e){
+      lerr(e.message);
+      if(e.message.includes('-10403'))lwarn('大会员内容');
+      setStep(5,'err',e.message.substring(0,50));
+    }
+  }
+  lg('\n======= 检测完成 =======');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>哔哩哔哩 TVBox 扫码登录</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f4f4f8; min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .card {
+    background: #fff; border-radius: 16px;
+    box-shadow: 0 4px 32px rgba(0,0,0,.10);
+    padding: 40px 36px; max-width: 480px; width: 94%;
+    text-align: center;
+  }
+  h1 { font-size: 22px; color: #222; margin-bottom: 6px; }
+  .sub { font-size: 13px; color: #888; margin-bottom: 28px; }
+  /* 二维码区 */
+  #qr-wrap {
+    width: 220px; height: 220px; margin: 0 auto 20px;
+    border: 2px solid #e8e8e8; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden; background: #fafafa;
+  }
+  #qr-wrap canvas { display: block; }
+  #qr-wrap img  { width: 200px; height: 200px; }
+  /* 遮罩（已失效 / 已扫码） */
+  .overlay {
+    position: absolute; inset: 0;
+    background: rgba(255,255,255,.92);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    font-size: 14px; color: #555; gap: 10px;
+    display: none;
+  }
+  .overlay.show { display: flex; }
+  .overlay .icon { font-size: 40px; }
+  /* 状态文字 */
+  #status {
+    font-size: 14px; color: #666; margin-bottom: 18px; min-height: 20px;
+  }
+  #status.ok  { color: #21a06b; font-weight: 600; }
+  #status.err { color: #e53935; }
+  /* 按钮 */
+  button {
+    background: #00a1d6; color: #fff; border: none;
+    padding: 10px 28px; border-radius: 8px; font-size: 15px;
+    cursor: pointer; transition: background .2s;
+  }
+  button:hover { background: #0089b8; }
+  /* 结果框 */
+  #result { display: none; margin-top: 24px; text-align: left; }
+  #result h3 { font-size: 14px; color: #444; margin-bottom: 8px; }
+  #cookie-box {
+    background: #f0f9ff; border: 1px solid #b3d9f0;
+    border-radius: 8px; padding: 12px 14px;
+    font-size: 13px; font-family: monospace;
+    word-break: break-all; color: #1a6fa0;
+    user-select: all; cursor: text; margin-bottom: 12px;
+  }
+  #ext-box {
+    background: #f5fff5; border: 1px solid #a5d6a7;
+    border-radius: 8px; padding: 12px 14px;
+    font-size: 12px; font-family: monospace;
+    word-break: break-all; color: #2e7d32;
+    user-select: all; cursor: text; margin-bottom: 14px;
+  }
+  .copy-btn {
+    background: #eee; color: #444; font-size: 13px;
+    padding: 6px 16px; border-radius: 6px; margin-right: 8px;
+  }
+  .copy-btn:hover { background: #ddd; }
+  .tip { font-size: 12px; color: #999; margin-top: 16px; line-height: 1.7; }
+  .tip code { background:#f0f0f0; padding:1px 4px; border-radius:4px; font-size:11px; }
+  /* 用户信息 */
+  #user-info {
+    display: none;
+    align-items: center; gap: 12px;
+    background: #f0f9ff; border-radius: 10px;
+    padding: 12px 16px; margin-bottom: 18px;
+  }
+  #user-info img { width:44px; height:44px; border-radius:50%; object-fit:cover; }
+  #user-info .name { font-size: 15px; font-weight: 600; color: #222; }
+  #user-info .level { font-size: 12px; color: #888; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>📺 哔哩哔哩 TVBox 登录</h1>
+  <p class="sub">用 B 站 App 扫码，获取 Cookie 填入 TVBox</p>
+
+  <!-- 用户信息（登录后显示）-->
+  <div id="user-info">
+    <img id="user-avatar" src="" alt="">
+    <div>
+      <div class="name" id="user-name"></div>
+      <div class="level" id="user-level"></div>
+    </div>
+  </div>
+
+  <!-- 二维码 -->
+  <div id="qr-wrap">
+    <div id="qr-img-area"></div>
+    <div class="overlay" id="overlay-expired">
+      <span class="icon">⏰</span>
+      <span>二维码已过期</span>
+    </div>
+    <div class="overlay" id="overlay-scanned">
+      <span class="icon">📱</span>
+      <span>已扫码，请在 App 确认</span>
+    </div>
+    <div class="overlay" id="overlay-loading">
+      <span style="font-size:28px">⏳</span>
+      <span>生成中…</span>
+    </div>
+  </div>
+
+  <div id="status">点击下方按钮生成二维码</div>
+  <button id="btn-refresh" onclick="startLogin()">生成二维码</button>
+
+  <!-- 登录成功结果 -->
+  <div id="result">
+    <h3>① 复制 SESSDATA（仅需此 Cookie）</h3>
+    <div id="cookie-box"></div>
+
+    <h3>② 复制完整 ext 配置（填入 TVBox）</h3>
+    <div id="ext-box"></div>
+
+    <button class="copy-btn" onclick="copy('cookie-box')">复制 SESSDATA</button>
+    <button class="copy-btn" onclick="copy('ext-box')">复制 ext 配置</button>
+
+    <div class="tip">
+      将 <strong>ext 配置</strong> 粘贴到 TVBox / 影视仓 → 数据源 → 该站点的 <code>ext</code> 字段，<br>
+      保存后重新加载站点即可以登录身份访问（最高 1080P / 4K）。<br><br>
+      Cookie 有效期约 <strong>180 天</strong>，过期后重新扫码即可。
+    </div>
+  </div>
+</div>
+
+<script>
+// ── B站登录 API（通过代理避免 CORS，或在同域服务器部署时直连）─────────────
+// 若你在本地直接打开此 HTML，需要一个简单代理或在服务器端部署。
+// 下面默认使用官方 API，浏览器跨域时会失败 —— 建议部署到与 bilibili.js 相同的服务器。
+var PROXY = '';   // 如有反向代理填前缀，如 '/api'，否则留空
+
+function api(path) {
+  return PROXY + 'https://passport.bilibili.com' + path;
+}
+
+var _pollTimer = null;
+var _qrKey     = '';
+
+// 生成二维码
+async function startLogin() {
+  clearInterval(_pollTimer);
+  showOverlay('overlay-loading', true);
+  setStatus('正在获取二维码…', '');
+  document.getElementById('result').style.display = 'none';
+  document.getElementById('user-info').style.display = 'none';
+  document.getElementById('btn-refresh').textContent = '刷新二维码';
+
+  try {
+    const res = await fetch('https://passport.bilibili.com/x/passport-login/web/qrcode/generate', {
+      credentials: 'omit',
+      headers: { 'Referer': 'https://www.bilibili.com' }
+    });
+    const data = await res.json();
+    if (data.code !== 0 || !data.data) throw new Error('获取二维码失败: ' + data.message);
+
+    _qrKey = data.data.qrcode_key;
+    const url = data.data.url;
+
+    // 用 QRCode.js 渲染（CDN）
+    const area = document.getElementById('qr-img-area');
+    area.innerHTML = '';
+    showOverlay('overlay-loading', false);
+
+    if (typeof QRCode !== 'undefined') {
+      new QRCode(area, { text: url, width: 200, height: 200, correctLevel: QRCode.CorrectLevel.M });
+    } else {
+      // 降级：用 API 生成图片
+      const img = document.createElement('img');
+      img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(url);
+      img.onload = function(){ showOverlay('overlay-loading', false); };
+      area.appendChild(img);
+    }
+
+    setStatus('请用 B 站 App 扫描上方二维码', '');
+    _pollTimer = setInterval(pollStatus, 2000);
+
+  } catch(e) {
+    showOverlay('overlay-loading', false);
+    setStatus('❌ ' + e.message + '（可能需要代理）', 'err');
+    console.error(e);
+  }
+}
+
+// 轮询扫码状态
+async function pollStatus() {
+  if (!_qrKey) return;
+  try {
+    const res = await fetch(
+      'https://passport.bilibili.com/x/passport-login/web/qrcode/poll?qrcode_key=' + _qrKey,
+      { credentials: 'include', headers: { 'Referer': 'https://www.bilibili.com' } }
+    );
+    const data = await res.json();
+    const code = data.data && data.data.code;
+
+    if (code === 0) {
+      // 登录成功
+      clearInterval(_pollTimer);
+      showOverlay('overlay-scanned', false);
+      await onLoginSuccess(data.data);
+
+    } else if (code === 86101) {
+      setStatus('等待扫码…', '');
+    } else if (code === 86090) {
+      showOverlay('overlay-scanned', true);
+      setStatus('已扫码，请在 App 上确认登录', '');
+    } else if (code === 86038) {
+      clearInterval(_pollTimer);
+      showOverlay('overlay-expired', true);
+      setStatus('二维码已过期，请点击刷新', 'err');
+    }
+  } catch(e) {
+    console.warn('poll error:', e.message);
+  }
+}
+
+// 登录成功处理
+async function onLoginSuccess(loginData) {
+  setStatus('✅ 登录成功！', 'ok');
+
+  // 从 URL 中提取 SESSDATA（登录成功后 B 站会在 URL 里带 cookie 参数）
+  var sessdata = '';
+  try {
+    var redirectUrl = loginData.url || '';
+    var urlObj = new URL(redirectUrl.replace(/^http:\/\//, 'https://'));
+    sessdata = urlObj.searchParams.get('SESSDATA') || '';
+    if (!sessdata) {
+      // 部分情况下 Cookie 写入了浏览器，尝试从 document.cookie 读取
+      var match = document.cookie.match(/SESSDATA=([^;]+)/);
+      if (match) sessdata = match[1];
+    }
+  } catch(e) {
+    console.warn('extract sessdata:', e.message);
+  }
+
+  // 若仍然空，提示用户手动从 DevTools 读取
+  if (!sessdata) {
+    sessdata = '【请按 F12 → Application → Cookies → https://www.bilibili.com 找到 SESSDATA 值】';
+  }
+
+  // 获取用户信息（展示头像/昵称）
+  try {
+    const uRes = await fetch('https://api.bilibili.com/x/web-interface/nav', {
+      credentials: 'include', headers: { 'Referer': 'https://www.bilibili.com' }
+    });
+    const uData = await uRes.json();
+    if (uData.code === 0 && uData.data) {
+      const u = uData.data;
+      document.getElementById('user-avatar').src = u.face || '';
+      document.getElementById('user-name').textContent = u.uname || '';
+      document.getElementById('user-level').textContent =
+        'Lv.' + (u.level_info && u.level_info.current_level || '?') +
+        (u.vipStatus ? '  ·  大会员 👑' : '');
+      document.getElementById('user-info').style.display = 'flex';
+
+      // 如果从 nav 能拿到 SESSDATA（极少数情况）
+      if (!sessdata || sessdata.startsWith('【')) {
+        var navCookie = document.cookie.match(/SESSDATA=([^;]+)/);
+        if (navCookie) sessdata = decodeURIComponent(navCookie[1]);
+      }
+    }
+  } catch(e) { console.warn('fetch nav:', e.message); }
+
+  // 显示结果
+  var catUrl = window.location.origin + window.location.pathname.replace('login.html','') + 'categories.json';
+  var extObj = { cookie: 'SESSDATA=' + sessdata, catUrl: catUrl };
+
+  document.getElementById('cookie-box').textContent = 'SESSDATA=' + sessdata;
+  document.getElementById('ext-box').textContent    = JSON.stringify(extObj, null, 2);
+  document.getElementById('result').style.display   = 'block';
+}
+
+function setStatus(msg, cls) {
+  var el = document.getElementById('status');
+  el.textContent = msg;
+  el.className = cls || '';
+}
+
+function showOverlay(id, show) {
+  ['overlay-expired','overlay-scanned','overlay-loading'].forEach(function(oid){
+    document.getElementById(oid).classList.remove('show');
+  });
+  if (show) document.getElementById(id).classList.add('show');
+}
+
+function copy(id) {
+  var text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(function(){
+    alert('已复制到剪贴板！');
+  }).catch(function(){
+    // 降级
+    var ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+    alert('已复制！');
+  });
+}
+</script>
+<!-- QRCode.js CDN（离线可换本地文件）-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+        onerror="console.warn('QRCode.js 加载失败，将使用 API 生成二维码')"></script>
+</body>
+</html>
