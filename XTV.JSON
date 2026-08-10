@@ -17,7 +17,7 @@
             "type": 3,
             "api": "csp_Bili",
             "jar": "./jar/Yoursmile.jar",
-            "searchable": 1,
+            "searchable": 0,
             "quickSearch": 0,
             "filterable": 1,
             "ext": "./json/categories.json"
@@ -29,10 +29,10 @@
             "type": 3,
              "api": "csp_BiliGuard",
             "jar": "./jar/newx2.jar;md5;8af3bd6512cac8c518a4c6d65c9f6539",
-            "searchable": 0,
+            "searchable": 1,
             "quickSearch": 1,
             "filterable": 1,
-            "ext":{"json": "https://raw.githubusercontent.com/gengliye/tv2/refs/heads/main/lib/幼儿启蒙.json"} 
+            "ext":{"json": "https://storage.7x24cc.com/storage-server/presigned/ss1/a6-online-fileupload/newMediaImage/4A3AA71_773_xiaoxue_20250828171535645newMediaImage.txt"} 
         },
          {
             "key": "hipy_js_采集之王",
