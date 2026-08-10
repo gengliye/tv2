@@ -32,7 +32,7 @@
             "searchable": 1,
             "quickSearch": 1,
             "filterable": 1,
-            "ext":{"json": "https://storage.7x24cc.com/storage-server/presigned/ss1/a6-online-fileupload/newMediaImage/4A3AA71_773_xiaoxue_20250828171535645newMediaImage.txt"} 
+            "ext":{"json": "https://git.acwing.com/GLY/orange/-/raw/main/json/xiaoxue.txt"} 
         },
          {
             "key": "hipy_js_采集之王",
