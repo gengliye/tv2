@@ -22,6 +22,7 @@
             "filterable": 1,
             "ext": "./json/categories.json"
         },
+
         {
             "key": "幼儿启蒙",
             "name": "👧曦曦启蒙",
