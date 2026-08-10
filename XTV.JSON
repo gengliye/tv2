@@ -20,19 +20,19 @@
             "searchable": 1,
             "quickSearch": 1,
             "filterable": 1,
-            "ext":{"json": "https://nos.netease.com/ysf/d7a21cf34ede56f5c686ecfba5fc7e3f.txt"} 
+            "ext":{"json": "https://raw.githubusercontent.com/gengliye/tv2/refs/heads/main/lib/xiaoxue.txt"} 
         },
 
         {
-            "key": "幼儿启蒙",
-            "name": "👧曦曦启蒙",
+            "key": "xiaoxueke",
+            "name": "📚小学课程📚",
             "type": 3,
              "api": "csp_BiliGuard",
              "jar": "./jar/fty0808.jar;md5;9d90c83bc7504392dd02c2236f08713a",
             "searchable": 1,
             "quickSearch": 1,
             "filterable": 1,
-            "ext":{"json": "https://raw.githubusercontent.com/gengliye/tv2/refs/heads/main/lib/xiaoxue.txt"} 
+            "ext":{"json": "https://nos.netease.com/ysf/d7a21cf34ede56f5c686ecfba5fc7e3f.txt"} 
         },
          {
             "key": "hipy_js_采集之王",
