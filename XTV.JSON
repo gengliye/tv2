@@ -15,12 +15,12 @@
             "key": "儿童拼音",
             "name": "👧曼曼爱学习",
             "type": 3,
-            "api": "csp_Bili",
-            "jar": "./jar/Yoursmile.jar",
+            "api": "csp_BiliGuard",
+            "jar": "https://tv.菜妮丝.top/jar/fty0808.jar;md5;9d90c83bc7504392dd02c2236f08713a",
             "searchable": 0,
             "quickSearch": 0,
             "filterable": 1,
-            "ext": "./json/categories.json"
+            "ext":{"json": "https://raw.githubusercontent.com/gengliye/tv2/refs/heads/main/lib/xiaoxue.txt"} 
         },
 
         {
